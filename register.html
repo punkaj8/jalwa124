@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Registration - Create Account</title>
+    <!-- Google Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0f172a, #1e293b);
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .register-card {
+            width: 100%;
+            max-width: 420px;
+            background: rgba(30, 41, 59, 0.85);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .header h2 {
+            font-size: 24px;
+            font-weight: 600;
+            color: #ffffff;
+        }
+
+        .header p {
+            font-size: 13px;
+            color: #94a3b8;
+            margin-top: 4px;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            margin-bottom: 6px;
+            color: #cbd5e1;
+        }
+
+        .input-box {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .input-box i {
+            position: absolute;
+            left: 14px;
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        .input-box input {
+            width: 100%;
+            padding: 12px 14px 12px 40px;
+            background: #0f172a;
+            border: 1px solid #334155;
+            border-radius: 8px;
+            color: #fff;
+            font-size: 14px;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        .input-box input:focus {
+            border-color: #38bdf8;
+            box-shadow: 0 0 8px rgba(56, 189, 248, 0.3);
+        }
+
+        .btn-register {
+            width: 100%;
+            padding: 12px;
+            background: #10b981;
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: 0.3s;
+        }
+
+        .btn-register:hover {
+            background: #059669;
+        }
+
+        .footer-links {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 13px;
+            color: #94a3b8;
+        }
+
+        .footer-links a {
+            color: #38bdf8;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .footer-links a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="register-card">
+        <div class="header">
+            <h2>Create Account</h2>
+            <p>Enter your details to register</p>
+        </div>
+
+        <form id="registerForm">
+            <!-- Mobile / Username -->
+            <div class="form-group">
+                <label for="phone">Phone Number</label>
+                <div class="input-box">
+                    <i class="fas fa-phone"></i>
+                    <input type="tel" id="phone" placeholder="Enter phone number" required>
+                </div>
+            </div>
+
+            <!-- Password -->
+            <div class="form-group">
+                <label for="password">Password</label>
+                <div class="input-box">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" id="password" placeholder="Create password" required>
+                </div>
+            </div>
+
+            <!-- Confirm Password -->
+            <div class="form-group">
+                <label for="confirmPassword">Confirm Password</label>
+                <div class="input-box">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" id="confirmPassword" placeholder="Confirm password" required>
+                </div>
+            </div>
+
+            <!-- Invitation Code -->
+            <div class="form-group">
+                <label for="invitationCode">Invitation Code</label>
+                <div class="input-box">
+                    <i class="fas fa-user-plus"></i>
+                    <input type="text" id="invitationCode" placeholder="Invitation code">
+                </div>
+            </div>
+
+            <button type="submit" class="btn-register">Register Now</button>
+        </form>
+
+        <div class="footer-links">
+            Already have an account? <a href="index.html">Sign In</a>
+        </div>
+    </div>
+
+    <script>
+        // URL se Invitation Code Auto-Fetch karne ka code
+        window.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            let inviteCode = urlParams.get('invitationCode');
+
+            // Agar URL me hash (#) ke sath link hai to hash se parameter nikalne ke liye
+            if (!inviteCode && window.location.hash.includes('invitationCode=')) {
+                const hashParams = new URLSearchParams(window.location.hash.split('?')[1]);
+                inviteCode = hashParams.get('invitationCode');
+            }
+
+            if (inviteCode) {
+                document.getElementById('invitationCode').value = inviteCode;
+            }
+        });
+
+        // Form Submit Handler
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const pass = document.getElementById('password').value;
+            const confirmPass = document.getElementById('confirmPassword').value;
+
+            if (pass !== confirmPass) {
+                alert('Passwords do not match!');
+                return;
+            }
+
+            alert('Registration Successful!');
+        });
+    </script>
+</body>
+</html>
